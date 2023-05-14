@@ -57,6 +57,7 @@ const WeatherApp = () => {
                     </div>
                     <div className='description'>
                         <p>{weatherData.weather[0].main}</p>
+                        <p className='descript'>{weatherData.weather[0].description}</p>
                     </div>
                     </>
                     ) : (

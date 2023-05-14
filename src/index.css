@@ -117,3 +117,7 @@ justify-content: space-between;
     transform: scale(1);
   }
 }
+.descript {
+  font-weight: 650;
+  font-size: 1rem;
+}
