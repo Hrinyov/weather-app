@@ -4,8 +4,6 @@ import axios from 'axios';
 
 const WeatherApp = () => {
     const [city, setCity] = useState('Uzhorod');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
     const [weatherData, setWeatherData] = useState(null);
 
     const handleInputChange = (event) => {
@@ -21,17 +19,11 @@ const WeatherApp = () => {
 
                 if (geoCodeResponse.data.length > 0) {
                     const { lat, lon } = geoCodeResponse.data[0];
-                    setLatitude(lat);
-                    setLongitude(lon);
-
                     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
                     const weatherResponse = await axios.get(weatherUrl);
                     console.log(weatherData);
                     setWeatherData(weatherResponse.data);
                 } else {
-
-                    setLatitude('');
-                    setLongitude('');
                     setWeatherData(null);
                 }
             } catch (error) {
