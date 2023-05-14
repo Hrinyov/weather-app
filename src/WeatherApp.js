@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 const WeatherApp = () => {
     const [city, setCity] = useState('Uzhorod');
     const [latitude, setLatitude] = useState('');
@@ -13,7 +14,7 @@ const WeatherApp = () => {
 
         const fetchWeatherData = async () => {
             try {
-                const apiKey = 'f368f0713d293c43f48f399695bb6c7e';
+                const apiKey = process.env.REACT_APP_KEY;
 
                 const geoCodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
                 const geoCodeResponse = await axios.get(geoCodeUrl);
@@ -28,7 +29,7 @@ const WeatherApp = () => {
                     console.log(weatherData);
                     setWeatherData(weatherResponse.data);
                 } else {
-                    // Handle case when no coordinates are found for the entered city
+
                     setLatitude('');
                     setLongitude('');
                     setWeatherData(null);
@@ -37,6 +38,9 @@ const WeatherApp = () => {
                 console.log(error);
             }
         };
+    useEffect(() => {
+        fetchWeatherData();
+    }, []); 
 
     return (
         <div>
@@ -50,29 +54,37 @@ const WeatherApp = () => {
                 <button onClick={fetchWeatherData}>Search</button>    
             </div>
             <div className='container'>
-            <div className='top'>
-                <div className='location'>
-                    <p>{weatherData?.name}</p>
-                </div>
-                <div className='temp'>
-                    <h1>{weatherData?.main.temp}°C</h1>
-                </div>
-                <div className='description'>
-                    <p>{weatherData?.weather[0].main}</p>
-                </div>
+                <div className='top'>
+                    {weatherData ? (
+                    <>
+                    <div className='location'>
+                        <p>{weatherData.name}</p>
+                    </div>
+                    <div className='temp'>
+                        <h1>{weatherData.main.temp.toFixed(1)}°C</h1>
+                    </div>
+                    <div className='description'>
+                        <p>{weatherData.weather[0].main}</p>
+                    </div>
+                    </>
+                    ) : (
+                    <div className='location'>
+                        <p>No weather data available</p>
+                    </div>
+                    )}
             </div>
 
             <div className='bottom'>
                 <div className='feels'>
-                    <p className='bold'>{weatherData?.main.feels_like}°C</p>
+                    <p className='bold'>{weatherData?.main.feels_like.toFixed(1)}°C</p>
                     <p>Feels like</p>
                 </div>
                 <div className='humidity'>
-                    <p className='bold'>{weatherData?.main.humidity}%</p>
+                    <p className='bold'>{weatherData?.main.humidity.toFixed(1)}%</p>
                     <p>Humidity</p>
                 </div>
                 <div className='wind'>
-                    <p className='bold'>{weatherData?.wind.speed} km/h</p>
+                    <p className='bold'>{weatherData?.wind.speed.toFixed(1)} km/h</p>
                     <p>Wind speed</p>
                 </div>
             </div>
