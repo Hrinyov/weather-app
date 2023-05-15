@@ -21,7 +21,6 @@ const WeatherApp = () => {
                     const { lat, lon } = geoCodeResponse.data[0];
                     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
                     const weatherResponse = await axios.get(weatherUrl);
-                    console.log(weatherData);
                     setWeatherData(weatherResponse.data);
                 } else {
                     setWeatherData(null);
@@ -32,6 +31,7 @@ const WeatherApp = () => {
         };
     useEffect(() => {
         fetchWeatherData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); 
 
     return (
